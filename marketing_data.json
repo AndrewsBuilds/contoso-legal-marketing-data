@@ -1,0 +1,112 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Contoso Legal Marketing Data (RAW GitHub)",
+    "version": "1.0.0",
+    "description": "Reads marketing_data.json from raw.githubusercontent.com (public repo) containing legal practice marketing, KPI, and client signal data."
+  },
+  "servers": [
+    {
+      "url": "https://raw.githubusercontent.com/AndrewsBuilds/contoso-legal-marketing-data/main"
+    }
+  ],
+  "paths": {
+    "/marketing_data.json": {
+      "get": {
+        "operationId": "getLegalMarketingDataRaw",
+        "summary": "Get Legal Marketing Data (RAW)",
+        "description": "Returns KPIs, practice categories, promotions, loyalty tiers, and client signals for a legal services firm.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "metadata": {
+                      "type": "object",
+                      "properties": {
+                        "generated_at": { "type": "string", "format": "date-time" },
+                        "source": { "type": "string" },
+                        "description": { "type": "string" }
+                      }
+                    },
+                    "marketing": {
+                      "type": "object",
+                      "properties": {
+                        "strategy": { "type": "string" }
+                      }
+                    },
+                    "kpis": {
+                      "type": "object",
+                      "properties": {
+                        "transactions": { "type": "number" },
+                        "net_revenue": { "type": "number" },
+                        "pre_tax_fees": { "type": "number" },
+                        "discounts": { "type": "number" },
+                        "aov": { "type": "number" },
+                        "window_start": { "type": "string", "format": "date" },
+                        "window_end": { "type": "string", "format": "date" }
+                      }
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "category": { "type": "string" },
+                          "revenue": { "type": "number" },
+                          "orders": { "type": "number" },
+                          "avg_ticket": { "type": "number" }
+                        }
+                      }
+                    },
+                    "promotions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "promotion_id": { "type": "string" },
+                          "orders": { "type": "number" },
+                          "discounted_revenue": { "type": "number" },
+                          "total_discount": { "type": "number" }
+                        }
+                      }
+                    },
+                    "loyalty": {
+                      "type": "object",
+                      "properties": {
+                        "penetration_pct": { "type": "number" },
+                        "by_tier": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "tier": { "type": "string" },
+                              "revenue": { "type": "number" }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "customer_signals": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "issue": { "type": "string" },
+                          "mentions": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
